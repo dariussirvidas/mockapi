@@ -4,22 +4,23 @@ import com.kitm.mockapi.exceptions.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.stream.IntStream;
+//import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootApplication
 @RestController
 @RequestMapping(value = "/")
 public class MockapiApplication {
 
-	int getDefaultResponseCode = 200;
-	int defaultResponseDelay = 0;
-	final int [] supportedResponseCodes = {200, 201, 204, 301, 400, 403, 404, 500, 503};
-	final int MAX_RESPONSE_DELAY = 10000;
+	private int getDefaultResponseCode = 200;
+	private int defaultResponseDelay = 0;
+	private final int [] supportedResponseCodes = {200, 201, 204, 301, 400, 403, 404, 500, 503};
+	private final int MAX_RESPONSE_DELAY = 10000;
 
 	@RequestMapping(method = RequestMethod.GET)
 	void simpleGet(@RequestParam(name = "delay", required = false) String delay,
 					 @RequestParam(name = "code", required = false) String code) throws InterruptedException {
+		//SecurityContextHolder.clearContext(); //<==== logout, doesn't work in chrome
 		//********delay************************************************************************************
 		int responseDelay = defaultResponseDelay;
 		if (delay != null) {
