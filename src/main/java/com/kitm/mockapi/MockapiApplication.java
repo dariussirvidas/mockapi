@@ -5,11 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import java.util.stream.IntStream;
-//import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootApplication
 @RestController
 @RequestMapping(value = "/")
+@CrossOrigin(origins = "*", methods = RequestMethod.GET)
 public class MockapiApplication {
 
 	private int getDefaultResponseCode = 200;
@@ -17,11 +17,31 @@ public class MockapiApplication {
 	private final int [] supportedResponseCodes = {200, 201, 204, 301, 400, 403, 404, 500, 503};
 	private final int MAX_RESPONSE_DELAY = 10000;
 
+	@RequestMapping(path = "/auth", method = RequestMethod.GET)
+	void authorisedPing(@RequestParam(name = "delay", required = false) String delay,
+						@RequestParam(name = "code", required = false) String code) throws Exception {
+		ping(delay, code);
+	}
 	@RequestMapping(method = RequestMethod.GET)
-	void simpleGet(@RequestParam(name = "delay", required = false) String delay,
-					 @RequestParam(name = "code", required = false) String code) throws InterruptedException {
-		//SecurityContextHolder.clearContext(); //<==== logout, doesn't work in chrome
-		//********delay************************************************************************************
+	void simplePing(@RequestParam(name = "delay", required = false) String delay,
+					 @RequestParam(name = "code", required = false) String code) throws Exception {
+		ping(delay, code);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	void setDefaultsPut(@RequestParam(name = "delay", required = false) String delay,
+								 @RequestParam(name = "code", required = false) String code) {
+		//***************delay****************************************************************************
+		setDefaults(delay, code);
+	}
+	@RequestMapping(path = "/default", method = RequestMethod.GET)
+	void setDefaultsGet(@RequestParam(name = "delay", required = false) String delay,
+						@RequestParam(name = "code", required = false) String code) {
+		//***************delay****************************************************************************
+		setDefaults(delay, code);
+	}
+
+	void ping(String delay, String code) throws Exception {
 		int responseDelay = defaultResponseDelay;
 		if (delay != null) {
 			try {
@@ -56,9 +76,7 @@ public class MockapiApplication {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.PUT)
-	void setDefaultResponseDelay(@RequestParam(name = "delay", required = false) String delay,
-								 @RequestParam(name = "code", required = false) String code) {
+	void setDefaults(String delay, String code) {
 		//***************delay****************************************************************************
 		if (delay != null) {
 			try {
