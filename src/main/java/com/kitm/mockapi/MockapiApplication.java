@@ -31,13 +31,11 @@ public class MockapiApplication {
 	@RequestMapping(method = RequestMethod.PUT)
 	void setDefaultsPut(@RequestParam(name = "delay", required = false) String delay,
 								 @RequestParam(name = "code", required = false) String code) {
-		//***************delay****************************************************************************
 		setDefaults(delay, code);
 	}
 	@RequestMapping(path = "/default", method = RequestMethod.GET)
 	void setDefaultsGet(@RequestParam(name = "delay", required = false) String delay,
 						@RequestParam(name = "code", required = false) String code) {
-		//***************delay****************************************************************************
 		setDefaults(delay, code);
 	}
 
