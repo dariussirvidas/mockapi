@@ -9,7 +9,7 @@ with embedded tomcat in intellij: 127.0.0.1:8080
 
 hosted: 88.222.15.11:8080/mockapi
 
-GET requires basic authentication (login: admin, password: password)
+GET /mockapi/auth same as /mockapi but requires basic authentication (login: admin, password: password)
 
 logout: 127.0.0.1:8080/logout or 88.222.15.11:8080/mockapi/logout
 
